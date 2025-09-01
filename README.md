@@ -1,12 +1,12 @@
 # KCS Auto Repair - Service Management System
 
-This repository contains the source code for the **KCS Auto Repair Service Management System**, a project designed to help manage appointments and inventory for KCS Auto Repair Shop.
+Contains the source code for the **KCS Auto Repair Service Management System**, a project designed to help manage appointments and inventory for KCS Auto Repair Shop.
 
 ---
 
 ## 🚗 Features
 - Online appointment scheduling system  
-- Real-time inventory tracking  
+- inventory tracking  
 - User-friendly interface  
 - Secure authentication for users and admin  
 
@@ -19,3 +19,4 @@ This repository contains the source code for the **KCS Auto Repair Service Manag
 - **Version Control:** Git + GitHub  
 
 ---
+
