@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KCS Car Service - Database Schema</title>
+    <style>
+        body { font-family: 'Poppins'; line-height: 1.6; color: #333; background-color: #f8f9fa; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1, h2, h3 { color: #2c3e50; }
+        h1 { text-align: center; border-bottom: 3px solid #3498db; padding-bottom: 15px; margin-bottom: 30px; }
+        .summary { background: #e9ecef; padding: 25px; border-radius: 8px; border-left: 5px solid #3498db; margin-bottom: 30px; }
+        .table-schema { border: 1px solid #dee2e6; border-radius: 8px; padding: 25px; margin-bottom: 30px; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .table-schema h2 { margin-top: 0; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6; }
+        th { background-color: #f2f2f2; }
+        code { background-color: #e9ecef; padding: 2px 6px; border-radius: 4px; }
+        .relations ul { padding-left: 20px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>KCS - Database Schema Documentation</h1>
+
+    <div class="summary">
+        <h2>Database Overview</h2>
+        <p>This document outlines the structure of the <code>auto_service_db</code> database. It includes details on each table, its columns, and the relationships between them. The schema is designed to support the core functionalities of the car service application, including appointment booking, job order management, inventory tracking, and user authentication.</p>
+        <a href = "documentation.html">Back to Documentation</a>
+    </div>
+
+    <div id="users" class="table-schema">
+        <h2>users</h2>
+        <p>Stores user account information for all roles (customers, staff, mechanics, admins).</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Column Name</th>
+                    <th>Data Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>id</td><td>int(11)</td><td>Primary Key, Auto-Increment</td></tr>
+                <tr><td>username</td><td>varchar(100)</td><td>Unique username for login.</td></tr>
+                <tr><td>password</td><td>varchar(255)</td><td>Hashed password.</td></tr>
+                <tr><td>email</td><td>varchar(100)</td><td>User's email address.</td></tr>
+                <tr><td>role</td><td>enum(...)</td><td>User role (e.g., 'admin', 'staff', 'customer').</td></tr>
+                <tr><td>full_name</td><td>varchar(100)</td><td>User's full name.</td></tr>
+                <tr><td>contact_number</td><td>varchar(15)</td><td>User's phone number.</td></tr>
+                <tr><td>home_address</td><td>varchar(255)</td><td>User's physical address.</td></tr>
+                <tr><td>status</td><td>enum('active', 'inactive')</td><td>Account status.</td></tr>
+                <tr><td>profile_picture</td><td>varchar(255)</td><td>Path to the user's profile image.</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="vehicles" class="table-schema">
+        <h2>vehicles</h2>
+        <p>Stores information about customer vehicles.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Column Name</th>
+                    <th>Data Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>id</td><td>int(11)</td><td>Primary Key, Auto-Increment</td></tr>
+                <tr><td>user_id</td><td>int(11)</td><td>Foreign Key linking to the owner in the <code>users</code> table.</td></tr>
+                <tr><td>brand</td><td>varchar(50)</td><td>The make of the vehicle (e.g., Toyota).</td></tr>
+                <tr><td>model</td><td>varchar(50)</td><td>The model of the vehicle (e.g., Corolla).</td></tr>
+                <tr><td>plate_number</td><td>varchar(20)</td><td>The vehicle's license plate number.</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="appointments" class="table-schema">
+        <h2>appointments</h2>
+        <p>The central table for managing service appointments.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Column Name</th>
+                    <th>Data Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>id</td><td>int(11)</td><td>Primary Key, Auto-Increment</td></tr>
+                <tr><td>user_id</td><td>int(11)</td><td>Foreign Key linking to the customer (<code>users</code> table).</td></tr>
+                <tr><td>vehicle_id</td><td>int(11)</td><td>Foreign Key linking to the <code>vehicles</code> table.</td></tr>
+                <tr><td>service_id</td><td>int(11)</td><td>Foreign Key linking to the primary <code>services</code> table.</td></tr>
+                <tr><td>scheduled_date</td><td>date</td><td>The date of the appointment.</td></tr>
+                <tr><td>scheduled_time</td><td>time</td><td>The time of the appointment.</td></tr>
+                <tr><td>status</td><td>enum(...)</td><td>The current status (e.g., 'pending', 'confirmed', 'completed').</td></tr>
+                <tr><td>bay_id</td><td>int(11)</td><td>Foreign Key linking to the assigned service <code>bays</code>.</td></tr>
+                <tr><td>mechanic_id</td><td>int(11)</td><td>Foreign Key linking to the assigned mechanic (<code>users</code> table).</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="job_orders" class="table-schema">
+        <h2>job_orders</h2>
+        <p>Contains details for a specific job, created from an appointment.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Column Name</th>
+                    <th>Data Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>id</td><td>int(11)</td><td>Primary Key, Auto-Increment</td></tr>
+                <tr><td>appointment_id</td><td>int(11)</td><td>Foreign Key linking to the original <code>appointments</code> entry.</td></tr>
+                <tr><td>mechanic_id</td><td>int(11)</td><td>Foreign Key for the mechanic assigned (<code>users</code> table).</td></tr>
+                <tr><td>diagnosis</td><td>text</td><td>Mechanic's diagnosis of the vehicle.</td></tr>
+                <tr><td>status</td><td>enum(...)</td><td>Status of the job (e.g., 'assigned', 'in_progress', 'completed').</td></tr>
+                <tr><td>image_path</td><td>varchar(255)</td><td>Path to an image related to the job order.</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="inventory" class="table-schema">
+        <h2>inventory</h2>
+        <p>Manages workshop parts and supplies.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Column Name</th>
+                    <th>Data Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>id</td><td>int(11)</td><td>Primary Key, Auto-Increment</td></tr>
+                <tr><td>item_code</td><td>varchar(15)</td><td>A unique code for the inventory item.</td></tr>
+                <tr><td>item_name</td><td>varchar(100)</td><td>The name of the item.</td></tr>
+                <tr><td>product_category</td><td>enum</td><td>Category of the product.</td></tr>
+                <tr><td>brand</td><td>enum</td><td>Brand of the item.</td></tr>
+                <tr><td>unit</td><td>enum</td><td>Unit of measurement.</td></tr>
+                <tr><td>category</td><td>enum</td><td>Inventory category (e.g., non-moving, slow-moving).</td></tr>
+                <tr><td>quantity</td><td>int(11)</td><td>Current stock level.</td></tr>
+                <tr><td>reorder_threshold</td><td>int(11)</td><td>The reorder point for the item.</td></tr>
+                <tr><td>kcs_purchasePrice</td><td>decimal(10,0)</td><td>The purchase price of the item.</td></tr>
+                <tr><td>price</td><td>decimal(10,2)</td><td>The selling price of a single unit.</td></tr>
+                <tr><td>location</td><td>enum</td><td>Storage location of the item.</td></tr>
+                <tr><td>supplier</td><td>enum</td><td>Supplier of the item.</td></tr>
+                <tr><td>lastPurchase_date</td><td>date</td><td>The date the item was last purchased.</td></tr>
+                <tr><td>expiry_date</td><td>date</td><td>The expiration date of the item.</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="quotations" class="table-schema">
+        <h2>quotations</h2>
+        <p>Stores price quotations generated for job orders.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Column Name</th>
+                    <th>Data Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>id</td><td>int(11)</td><td>Primary Key, Auto-Increment</td></tr>
+                <tr><td>job_order_id</td><td>int(11)</td><td>Foreign Key linking to the <code>job_orders</code> table.</td></tr>
+                <tr><td>amount</td><td>decimal(10,2)</td><td>The total estimated cost.</td></tr>
+                <tr><td>status</td><td>enum(...)</td><td>Status of the quote ('pending', 'accepted', 'declined').</td></tr>
+                <tr><td>quote_details</td><td>longtext</td><td>A detailed breakdown of the quotation.</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="payments" class="table-schema">
+        <h2>payments</h2>
+        <p>Records payments made by customers for quotations.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Column Name</th>
+                    <th>Data Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>id</td><td>int(11)</td><td>Primary Key, Auto-Increment</td></tr>
+                <tr><td>user_id</td><td>int(11)</td><td>Foreign Key linking to the customer (<code>users</code> table).</td></tr>
+                <tr><td>quotation_id</td><td>int(11)</td><td>Foreign Key linking to the <code>quotations</code> table.</td></tr>
+                <tr><td>amount</td><td>decimal(10,2)</td><td>The amount paid.</td></tr>
+                <tr><td>status</td><td>enum('paid', 'unverified')</td><td>Payment verification status.</td></tr>
+                <tr><td>receipt_path</td><td>varchar(255)</td><td>File path to the uploaded payment receipt.</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="supporting-tables" class="table-schema">
+        <h2>Supporting Tables</h2>
+        <p>These tables provide essential data and logging for the main application functionalities.</p>
+
+        <!-- Services Table -->
+        <div class="table-schema" style="margin-top: 20px;">
+            <h3>services</h3>
+            <p>A list of all services offered by the workshop.</p>
+            <table>
+                <thead><tr><th>Column Name</th><th>Data Type</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td>id</td><td>int(11)</td><td>Primary Key, Auto-Increment</td></tr>
+                    <tr><td>name</td><td>varchar(100)</td><td>The name of the service (e.g., "Change Oil").</td></tr>
+                    <tr><td>description</td><td>text</td><td>A detailed description of the service.</td></tr>
+                    <tr><td>cost</td><td>decimal(10,2)</td><td>The base cost of the service.</td></tr>
+                    <tr><td>status</td><td>enum('Available', 'Not Available')</td><td>Whether the service is currently offered.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Bays Table -->
+        <div class="table-schema">
+            <h3>bays</h3>
+            <p>Defines the physical service bays available in the workshop.</p>
+            <table>
+                <thead><tr><th>Column Name</th><th>Data Type</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td>id</td><td>int(11)</td><td>Primary Key, Auto-Increment</td></tr>
+                    <tr><td>name</td><td>varchar(50)</td><td>The name of the bay (e.g., "Bay 1").</td></tr>
+                    <tr><td>status</td><td>varchar(50)</td><td>Current status (e.g., "Available", "In Use").</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Notifications Table -->
+        <div class="table-schema">
+            <h3>notifications</h3>
+            <p>Stores messages and alerts for users.</p>
+            <table>
+                <thead><tr><th>Column Name</th><th>Data Type</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td>id</td><td>int(11)</td><td>Primary Key, Auto-Increment</td></tr>
+                    <tr><td>user_id</td><td>int(11)</td><td>Foreign Key linking to the recipient (<code>users</code> table).</td></tr>
+                    <tr><td>message</td><td>text</td><td>The content of the notification.</td></tr>
+                    <tr><td>status</td><td>enum('unread', 'read')</td><td>The status of the notification.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Logs Table -->
+        <div class="table-schema">
+            <h3>logs</h3>
+            <p>Provides an audit trail of user actions within the system.</p>
+            <table>
+                <thead><tr><th>Column Name</th><th>Data Type</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td>id</td><td>int(11)</td><td>Primary Key, Auto-Increment</td></tr>
+                    <tr><td>user_id</td><td>int(11)</td><td>Foreign Key linking to the user who performed the action.</td></tr>
+                    <tr><td>action</td><td>text</td><td>A description of the action taken.</td></tr>
+                    <tr><td>log_time</td><td>timestamp</td><td>The date and time the action occurred.</td></tr>
+                    <tr><td>ip_address</td><td>varchar(45)</td><td>The IP address from which the action was performed.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Inventory Log Table -->
+        <div class="table-schema">
+            <h3>inventory_log</h3>
+            <p>Tracks the usage of inventory items for specific job orders.</p>
+            <table>
+                <thead><tr><th>Column Name</th><th>Data Type</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td>id</td><td>int(11)</td><td>Primary Key, Auto-Increment</td></tr>
+                    <tr><td>item_id</td><td>int(11)</td><td>Foreign Key linking to the <code>inventory</code> item.</td></tr>
+                    <tr><td>job_order_id</td><td>int(11)</td><td>Foreign Key linking to the relevant <code>job_orders</code>.</td></tr>
+                    <tr><td>quantity_used</td><td>int(11)</td><td>The number of items used.</td></tr>
+                    <tr><td>action</td><td>enum('add', 'withdraw')</td><td>Whether stock was added or removed.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Appointment Services Table -->
+        <div class="table-schema">
+            <h3>appointment_services</h3>
+            <p>A linking table for appointments that include multiple services.</p>
+            <table>
+                <thead><tr><th>Column Name</th><th>Data Type</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td>id</td><td>int(11)</td><td>Primary Key, Auto-Increment</td></tr>
+                    <tr><td>appointment_id</td><td>int(11)</td><td>Foreign Key linking to <code>appointments</code>.</td></tr>
+                    <tr><td>service_id</td><td>int(11)</td><td>Foreign Key linking to <code>services</code>.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Quotation Products Table -->
+        <div class="table-schema">
+            <h3>quotation_products</h3>
+            <p>A linking table for products or parts used in a quotation.</p>
+            <table>
+                <thead><tr><th>Column Name</th><th>Data Type</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td>id</td><td>int(11)</td><td>Primary Key, Auto-Increment</td></tr>
+                    <tr><td>quotation_id</td><td>int(11)</td><td>Foreign Key linking to <code>quotations</code>.</td></tr>
+                    <tr><td>product_id</td><td>int(11)</td><td>Foreign Key linking to an <code>inventory</code> item.</td></tr>
+                    <tr><td>quantity</td><td>int(11)</td><td>The quantity of the product used.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Unavailable Dates Table -->
+        <div class="table-schema">
+            <h3>unavailable_dates</h3>
+            <p>Stores dates that are blocked off and cannot be booked for appointments.</p>
+            <table>
+                <thead><tr><th>Column Name</th><th>Data Type</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td>id</td><td>int(11)</td><td>Primary Key, Auto-Increment</td></tr>
+                    <tr><td>date</td><td>date</td><td>The specific date that is unavailable.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Password Resets Table -->
+        <div class="table-schema">
+            <h3>password_resets</h3>
+            <p>Temporarily stores tokens for the password reset process.</p>
+            <table>
+                <thead><tr><th>Column Name</th><th>Data Type</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td>id</td><td>int(11)</td><td>Primary Key, Auto-Increment</td></tr>
+                    <tr><td>email</td><td>varchar(255)</td><td>The user's email address.</td></tr>
+                    <tr><td>token</td><td>varchar(255)</td><td>The unique, secure token for password reset.</td></tr>
+                    <tr><td>expires</td><td>int(11)</td><td>A timestamp indicating when the token will expire.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

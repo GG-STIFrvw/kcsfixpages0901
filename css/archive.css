@@ -1,0 +1,123 @@
+/* minimalist, aesthetic, and professional 🙄 */
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+h2 {
+    margin-top: 40px;
+    font-size: 20px;
+    color: #34495e;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.quote-card {
+    background-color: #fff;
+    border: 1px solid #eaeaea;
+    border-left: 4px solid #3498db;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    transition: box-shadow 0.2s ease;
+}
+
+.quote-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.quote-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.quote-header h3 {
+    font-size: 18px;
+    margin: 0;
+    color: #2d3436;
+}
+
+.quote-status {
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.status-accepted {
+    background-color: #eafaf1;
+    color: #27ae60;
+    border-left-color: #27ae60;
+}
+
+.status-declined {
+    background-color: #fdecea;
+    color: #e74c3c;
+    border-left-color: #e74c3c;
+}
+
+.status-pending {
+    background-color: #fffbea;
+    color: #f39c12;
+    border-left-color: #f39c12;
+}
+
+.quote-body p {
+    margin: 6px 0;
+}
+
+.product-list {
+    margin-top: 12px;
+}
+
+.product-list h4 {
+    margin: 10px 0 5px;
+    font-size: 16px;
+    color: #555;
+}
+
+.product-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.product-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+}
+
+.decline-reason {
+    background-color: #fff0f0;
+    padding: 10px;
+    margin-top: 10px;
+    border-left: 3px solid #e74c3c;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.message {
+    background-color: #eafaf1;
+    color: #27ae60;
+    padding: 10px 20px;
+    border-left: 4px solid #27ae60;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}

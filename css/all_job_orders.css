@@ -1,0 +1,113 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background-color: #333;
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.header .back-link {
+    color: white;
+    text-decoration: none;
+    background-color: #007bff;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.header .back-link:hover {
+    background-color: #0056b3;
+}
+
+.container {
+    max-width: 1600px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.table-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.table-header h2 {
+    margin: 0;
+    color: #333;
+}
+
+.filter-controls {
+    display: flex;
+    gap: 15px;
+}
+
+.filter-controls input[type="text"],
+.filter-controls select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.job-orders-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.job-orders-table th, .job-orders-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.job-orders-table thead {
+    background-color: #f8f9fa;
+}
+
+.job-orders-table th {
+    font-weight: bold;
+}
+
+.job-orders-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.job-orders-table img {
+    max-width: 100px;
+    border-radius: 4px;
+}
+
+.status-pending { color: #ffc107; font-weight: bold; }
+.status-in_progress { color: #007bff; font-weight: bold; }
+.status-completed { color: #28a745; font-weight: bold; }
+.status-paid { color: #17a2b8; font-weight: bold; }
+
+.no-results-row td {
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+    color: #666;
+}

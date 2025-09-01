@@ -1,0 +1,515 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: "Arial", sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f9fa;
+    overflow-x: hidden;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  /* Services Header Section */
+  .services-offer {
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background-image: url('https://i.ibb.co/LdmTPBCL/cover.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(100%);
+            opacity: 0.85; /* opacity */
+            z-index: -1; /* Place behind the content */
+  }
+  
+  .services-offer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23ffffff" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+  }
+  
+  .services-offer .container {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .services-offer h2 {
+    font-size: 3.75rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .services-offer p {
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    max-width: 600px;
+    margin: 0 auto;
+    opacity: 0.9;
+    line-height: 1.8;
+    padding: 0 15px;
+  }
+  
+  /* Service Container */
+  .service-container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    margin: 50px auto;
+    max-width: 1000px;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 500px;
+  }
+  
+  .service-image {
+    background: linear-gradient(45deg, #632100 0%, #d6a596 100%);
+    position: relative;
+    overflow: hidden;
+    min-height: 300px;
+  }
+  
+  .service-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  
+  .service-image:hover img {
+    transform: scale(1.05);
+  }
+  
+  .service-content {
+    padding: clamp(20px, 5vw, 40px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: white;
+  }
+  
+  .service-content h2 {
+    font-size: 2.25rem;
+    color: #2d3748;
+    margin-bottom: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  
+  .service-content video {
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 20px;
+  }
+  
+  .service-content p {
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+    line-height: 1.8;
+    color: #4a5568;
+    margin-bottom: 20px;
+  }
+  
+  /* Controls */
+  .controls {
+    text-align: center;
+    margin: 40px 0;
+    padding: 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .controls button {
+    background: #d63031;
+    color: white;
+    border: none;
+    padding: clamp(10px 20px, 3vw, 15px 30px);
+    border-radius: 50px;
+    font-size: clamp(0.85rem, 2.5vw, 1rem);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    min-width: 120px;
+    min-height: 50px;
+    flex-shrink: 0;
+  }
+  
+  .controls button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  }
+  
+  .controls button:active {
+    transform: translateY(0);
+  }
+  
+  /* Brands */
+  .brands {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 40px 0;
+    gap: 20px;
+
+  }
+  
+  .brands img {
+    max-width: clamp(35px, 8vw, 50px);
+    height: auto;
+    transition: transform 0.3s ease;
+    
+  }
+  
+  .brands img:hover {
+    transform: scale(1.1);
+  }
+  
+  /* Services List */
+  .services-list {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: clamp(20px, 5vw, 40px);
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .services-list h2 {
+    text-align: center;
+    font-size: 2.25rem;
+    margin-bottom: 25px;
+    color: rgb(31 41 55 / var(--tw-bg-opacity, 1));
+    font-weight: 700;
+  }
+  
+  .services-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+    gap: clamp(8px, 2vw, 12px) clamp(10px, 3vw, 20px);
+  }
+  
+  .services-list li {
+    padding: clamp(8px, 2vw, 10px);
+    background: rgb(255, 255, 255);
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: clamp(0.85rem, 2.2vw, 0.95rem);
+    transition: all 0.2s ease-in-out;
+    word-break: break-word;
+  }
+  
+  .services-list li:hover {
+    background: #fcfcfc;
+    border-color: #d63031;
+    transform: translateY(-2px);
+  }
+  
+  /* Reviews Section */
+  .reviews-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: clamp(1.5rem, 5vw, 3rem) clamp(1rem, 4vw, 2rem);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .section-header {
+    text-align: center;
+    margin-bottom: clamp(2rem, 5vw, 3rem);
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: rgb(31 41 55 / var(--tw-bg-opacity, 1));
+  }
+  
+  .section-subtitle {
+  
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+    padding: 0 15px;
+  }
+  
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(350px, 100%), 1fr));
+    gap: clamp(1rem, 4vw, 2rem);
+    margin-bottom: 2rem;
+  }
+  
+  .review-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    padding: clamp(1.25rem, 4vw, 2rem);
+    position: relative;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+  }
+  
+  .review-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 1);
+  }
+  
+  .review-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .reviewer-avatar {
+    width: clamp(45px, 8vw, 60px);
+    height: clamp(45px, 8vw, 60px);
+    border-radius: 50%;
+    background:#d63031;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    margin-right: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
+  }
+  
+  .reviewer-info h3 {
+    color: #2c3e50;
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+    margin-bottom: 0.25rem;
+    line-height: 1.2;
+  }
+  
+  .reviewer-role {
+    color: #7f8c8d;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+  }
+  
+  .stars {
+    display: flex;
+    margin-bottom: 1rem;
+    gap: 2px;
+    flex-wrap: wrap;
+  }
+  
+  .star {
+    color: #ffd700;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    transition: transform 0.2s ease;
+  }
+  
+  .star:hover {
+    transform: scale(1.2);
+  }
+  
+  .review-text {
+    color: #2c3e50;
+    line-height: 1.7;
+    font-size: clamp(0.9rem, 2.2vw, 1rem);
+    margin-bottom: 1rem;
+    position: relative;
+    word-break: break-word;
+  }
+  
+  .review-text::before {
+    content: '"';
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    color: rgba(102, 126, 234, 0.2);
+    position: absolute;
+    top: clamp(-10px, -2vw, -20px);
+    left: clamp(-5px, -1vw, -10px);
+    font-family: serif;
+    line-height: 1;
+  }
+  
+  /* Enhanced Responsive Breakpoints */
+  @media (max-width: 1024px) {
+    .container {
+      padding: 0 15px;
+    }
+  
+    .service-container {
+      margin: -30px 15px 30px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .services-offer {
+      padding: 60px 0;
+    }
+  
+    .service-container {
+      grid-template-columns: 1fr;
+      margin: -30px 20px 30px;
+      max-width: none;
+      min-height: auto;
+    }
+  
+    .service-image {
+      min-height: 250px;
+      order: -1;
+    }
+  
+    .reviews-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .review-header {
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+    }
+  
+    .reviewer-avatar {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .services-offer {
+      padding: 40px 0;
+    }
+  
+    .service-container {
+      margin: -20px 10px 20px;
+      border-radius: 15px;
+    }
+  
+    .controls {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .controls button {
+      width: 100%;
+      max-width: 250px;
+      margin: 5px 0;
+    }
+
+    .brands {
+      gap: 15px;
+    }
+  
+    .services-list ul {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  @media (max-width: 320px) {
+    .service-container {
+      border-radius: 10px;
+      margin: -15px 5px 15px;
+    }
+  
+    .brands img {
+      max-width: 30px;
+    }
+  
+    .review-text::before {
+      display: none;
+    }
+  }
+  
+  /* Loading Animation */
+  .service-container {
+    animation: slideUp 0.8s ease-out;
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Transition Effects */
+  #service-img,
+  #service-video,
+  #service-title,
+  #service-description {
+    transition: all 0.5s ease;
+  }
+  
+  .fade-transition {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  
+  /* Touch-friendly enhancements */
+  @media (hover: none) and (pointer: coarse) {
+    .controls button {
+      padding: 15px 25px;
+      font-size: 1rem;
+    }
+  
+    .review-card:hover {
+      transform: none;
+    }
+  
+    .service-image:hover img {
+      transform: none;
+    }
+  
+    .brands img:hover {
+      transform: none;
+    }
+  
+    .services-list li:hover {
+      transform: none;
+    }
+  }
+  
+  /* High DPI displays */
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .services-offer::before {
+      background-size: 20px 20px;
+    }
+  }
+  
+
+  .text-brands {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    font-weight: 600;
+}

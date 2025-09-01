@@ -1,0 +1,144 @@
+
+#content-box {
+    background-color: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+   
+}
+
+
+#content-box h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+#content-box p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.5;
+}
+
+#content-box a,
+#content-box button {
+    display: inline-block;
+    margin-top: 10px;
+    color: #007bff;
+    text-decoration: none;
+    border: none;
+    background: none;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#content-box a:hover,
+#content-box button:hover {
+    text-decoration: underline;
+}
+
+body.dark-mode #content-box {
+    background-color: #1e1e1e;
+    color: #ddd;
+}
+
+body.dark-mode #content-box h2 {
+    color: #eee;
+}
+
+body.dark-mode #content-box p {
+    color: #bbb;
+}
+
+body.dark-mode #content-box a,
+body.dark-mode #content-box button {
+    color: #66b2ff;
+}
+
+body.dark-mode #content-box a:hover,
+body.dark-mode #content-box button:hover {
+    color: #8ecfff;
+}
+
+#content-box {
+    
+    background-color: white;
+    border-radius: 15px;
+    padding: 40px;
+    width: 70%;
+    margin-left: 0;
+    margin-right: auto;
+    margin-top: 5vh; 
+    height: calc(57vh - 60px); 
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    
+}
+
+
+
+
+/* Text styling */
+#content-box h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+#content-box p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Dark mode */
+body.dark-mode #content-box {
+    background-color: #1e1e1e;
+    color: #ddd;
+}
+
+body.dark-mode #content-box h2 {
+    color: #eee;
+}
+
+body.dark-mode #content-box p {
+    color: #bbb;
+}
+
+
+
+
+
+
+/* Dashboard heading styles */
+
+
+.dashboard-heading {
+    margin-left: 0%;
+    margin-top: 40px;
+    margin-bottom: -30px;
+}
+
+.dashboard-heading h1 {
+    font-size: 32px;
+    color: white;
+    margin: 0;
+    font-weight: bold;
+}
+
+.dashboard-heading p {
+    color: white;
+    font-size: 14px;
+    margin-top: 5px;
+    line-height: 1.4;
+}
+
+/* Dark mode support */
+body.dark-mode .dashboard-heading h1,
+body.dark-mode .dashboard-heading p {
+    color: #eee;
+}
+
+
+
+

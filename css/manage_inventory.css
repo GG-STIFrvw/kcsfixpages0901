@@ -1,0 +1,180 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background-color: #333;
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.header .back-link {
+    color: white;
+    text-decoration: none;
+    background-color: #007bff;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.header .back-link:hover {
+    background-color: #0056b3;
+}
+
+.container {
+    max-width: 1600px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.message {
+    padding: 15px;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.message.success {
+    background-color: #28a745;
+}
+
+.message.error {
+    background-color: #dc3545;
+}
+
+.form-container, .table-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+h2 {
+    color: #333;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+.add-form .form-row {
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+}
+
+.add-form .form-group {
+    flex: 1;
+}
+
+.add-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.add-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.add-form button {
+    padding: 10px 30px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.add-form button:hover {
+    background-color: #0056b3;
+    width: auto;
+}
+
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.inventory-table th, .inventory-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.inventory-table thead {
+    background-color: #f8f9fa;
+}
+
+.inventory-table th {
+    font-weight: bold;
+    color: #333;
+}
+
+.inventory-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.inventory-table input[type="text"],
+.inventory-table input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.actions-cell {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.actions-cell button, .actions-cell a {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.update-btn {
+    background-color: #28a745;
+}
+.update-btn:hover {
+    background-color: #218838;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+}
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+

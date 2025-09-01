@@ -1,0 +1,85 @@
+/* Reset + Body */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa; /* shared background */
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Common container spacing */
+.container, .billing-container {
+    margin-top: 6rem; /* same top space under fixed header */
+}
+
+/* Headings */
+h1, h2, h3 {
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* Buttons */
+button, .btn {
+    padding: 0.75rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary, button[type="submit"] {
+    background-color: #d63031;
+    color: white;
+}
+.btn-primary:hover, button[type="submit"]:hover {
+    background-color: #c12b2c;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border-bottom: 1px solid #ddd;
+    padding: 15px;
+    text-align: left;
+}
+
+/* Form Elements */
+input[type="text"], input[type="file"], select, textarea {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    background-color: #fff;
+}
+input:focus, select:focus, textarea:focus {
+    border-color: #0984e3;
+    outline: none;
+}
+
+/* Messages */
+.message {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    font-size: 0.95rem;
+}
+.message.success {
+    background-color: #dff9fb;
+    color: #27ae60;
+    border: 1px solid #27ae60;
+}
+.message.error {
+    background-color: #ffe6e6;
+    color: #d63031;
+    border: 1px solid #d63031;
+}

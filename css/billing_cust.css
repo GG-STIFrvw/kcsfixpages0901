@@ -1,0 +1,168 @@
+/* Base Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Container */
+.billing-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #2d3436;
+}
+
+/* Message styles */
+.message {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    font-size: 0.95rem;
+}
+
+.message.success {
+    background-color: #dff9fb;
+    color: #27ae60;
+    border: 1px solid #27ae60;
+}
+
+.message.error {
+    background-color: #ffe6e6;
+    color: #d63031;
+    border: 1px solid #d63031;
+}
+
+/* Form */
+.billing-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #2d3436;
+}
+
+select,
+input[type="text"],
+input[type="file"] {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease;
+    background-color: #fefefe;
+}
+
+select:focus,
+input:focus {
+    border-color: #0984e3;
+    outline: none;
+}
+
+/* Payment Methods */
+.payment-methods {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.payment-methods label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: normal;
+}
+
+/* Button */
+button[type="submit"] {
+    padding: 0.85rem;
+    background-color: #d63031;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #d630309c;
+}
+
+/* GCash section hidden by default */
+#gcash_fields {
+    display: none;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .billing-container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+}
+
+
+
+
+.payment-layout {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.billing-form {
+    flex: 2;
+    min-width: 280px;
+}
+
+.gcash-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;     /* centers horizontally */
+    justify-content: center; /* centers vertically if needed */
+    text-align: center;
+}
+
+.qr-image {
+    max-width: 200px;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+}
+
+.gcash-number {
+    font-size: 0.95rem;
+    color: #2d3436;
+    margin-top: 0.5rem;
+}

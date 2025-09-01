@@ -1,0 +1,84 @@
+/* ===== Appointments Table Wrapper ===== */
+.appointments-table-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    padding: 15px;
+    overflow-x: auto; /* for small screens */
+}
+
+/* ===== Table ===== */
+.appointments-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+}
+
+.appointments-table thead {
+    background-color: #f8f9fa;
+}
+
+.appointments-table th,
+.appointments-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e9ecef;
+    vertical-align: middle;
+}
+
+.appointments-table th {
+    font-weight: 600;
+    color: #333;
+}
+
+.appointments-table td strong {
+    font-weight: 600;
+    display: block;
+}
+
+.appointments-table td small,
+.appointments-table td span {
+    color: #666;
+    font-size: 13px;
+}
+
+/* Zebra stripes for readability */
+.appointments-table tbody tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+/* ===== Status text ===== */
+.appointments-table td:nth-child(4) {
+    font-weight: 500;
+}
+
+/* ===== Cancel button ===== */
+.cancel-btn {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background-color 0.2s ease;
+}
+
+.cancel-btn:hover {
+    background-color: #c82333;
+}
+
+/* ===== Responsive adjustments ===== */
+@media (max-width: 768px) {
+    .appointments-table th,
+    .appointments-table td {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .cancel-btn {
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+}

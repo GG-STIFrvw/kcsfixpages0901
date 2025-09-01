@@ -1,0 +1,49 @@
+day 1
+
+day 2
+`log history done
+-i add log in, log out funtion that can record time stap when where they log in, or out
+-sort added
+-exel file added
+-IP address added
+-
+
+-maintenance done
+i add toggle to active and inactive users with confirmation 
+
+
+
+
+-customers
+U:customer1
+P:customer1
+
+U:Earl
+P:Earl
+
+U:Gilbert
+P:Gilbert
+
+-admin
+U:admin1
+P:admin1
+email: kcsadmn20@gmail.com
+pw: Kcs_Admin123
+
+-staff
+U:staff4
+P:staff4
+email: kcsautorepair09@gmail.com
+pw: Kcs_AutoRep123
+
+-maintenance
+U:inventory
+P:inventory
+email:kcsinventory71@gmail.com
+pw: Kcs_Inventory123
+
+customer account test:
+username: MM
+pw: 123.Pass
+
+npx https://github.com/google-gemini/gemini-cli

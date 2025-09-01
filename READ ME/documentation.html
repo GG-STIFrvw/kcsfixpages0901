@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KCS Car Service - Functional Documentation</title>
+    <style>
+        body { font-family: 'Poppins'; line-height: 1.6; color: #333; background-color: #f8f9fa; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1, h2, h3, h4 { color: #2c3e50; }
+        h1 { text-align: center; border-bottom: 3px solid #3498db; padding-bottom: 15px; margin-bottom: 30px; }
+        .summary { background: #e9ecef; padding: 25px; border-radius: 8px; border-left: 5px solid #3498db; margin-bottom: 30px; }
+        .section { margin-bottom: 40px; }
+        .section h2 { border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        .file-entry { border: 1px solid #dee2e6; border-radius: 8px; padding: 20px; margin-bottom: 20px; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .file-entry h3 { margin-top: 0; color: #34495e; }
+        .file-entry p, .file-entry ul { margin-bottom: 0; }
+        .file-entry ul { padding-left: 20px; }
+    </style>
+</head>
+<body>
+    <h1>KCS - Functional Documentation</h1>
+
+    <div class="summary">
+        <h2>Project Overview</h2>
+        <p>This document provides a functional overview of the files in the KCS project. The application is a comprehensive management system for a car workshop, featuring distinct portals for customers, staff, and administrators. It is built primarily with PHP and a MySQL database, with JavaScript for front-end interactivity.</p>
+        <a href="database.html">View the database here</a>
+    </div>
+
+    <div id="core-files" class="section">
+        <h2>Core & Public-Facing Files</h2>
+        <div class="file-entry">
+            <h3>index.php</h3>
+            <p><strong>Purpose:</strong> The main landing page for the website. It serves as the entry point for visitors and likely presents general information about the business, services, and links to log in or register.</p>
+        </div>
+        <div class="file-entry">
+            <h3>config.php</h3>
+            <p><strong>Purpose:</strong> A critical configuration file. It establishes the connection to the MySQL database and may contain other global settings, constants, or API keys used throughout the application.</p>
+        </div>
+        <div class="file-entry">
+            <h3>header.php / navbar.php / sidebar.php</h3>
+            <p><strong>Purpose:</strong> These are reusable template files. <code>header.php</code> typically contains the HTML head section (metadata, CSS links), while <code>navbar.php</code> and <code>sidebar.php</code> contain the main navigation menus. They are included in other pages to ensure a consistent layout and user interface.</p>
+        </div>
+        <div class="file-entry">
+            <h3>services_page.php</h3>
+            <p><strong>Purpose:</strong> A public page that displays the list of services offered by the car shop to potential customers.</p>
+        </div>
+        <div class="file-entry">
+            <h3>terms-and-conditions.php</h3>
+            <p><strong>Purpose:</strong> A static page that displays the company's terms and conditions of service.</p>
+        </div>
+        <div class="file-entry">
+            <h3>send_contact_email.php & contact_form.js</h3>
+            <p><strong>Purpose:</strong> These files work together to power the contact form. <code>contact_form.js</code> handles the front-end submission (likely via AJAX to prevent page reload), and <code>send_contact_email.php</code> processes the submitted data on the server and sends it as an email.</p>
+        </div>
+    </div>
+
+    <div id="auth-files" class="section">
+        <h2>Authentication & Session Management</h2>
+        <div class="file-entry">
+            <h3>Session Handling</h3>
+            <p>The application manages user sessions to maintain login state and control access to different parts of the site. The process is as follows:</p>
+            <ul>
+                <li><strong>Initiation:</strong> <code>session_start()</code> is called at the beginning of pages that require session access, most notably <code>login.php</code>.</li>
+                <li><strong>Login:</strong> Upon a successful login in <code>login.php</code>, user data (ID, username, role, etc.) is stored in the <code>$_SESSION['user']</code> array. For privileged roles (admin, staff), the login process is paused, and an OTP is sent for two-factor authentication before the session is fully established.</li>
+                <li><strong>Access Control:</strong> On protected pages (e.g., dashboards, admin modules), the code checks for the existence and role within <code>$_SESSION['user']</code> to determine if the user is authorized to view the page.</li>
+                <li><strong>Logout:</strong> <code>logout.php</code> is responsible for clearing the session. It calls <code>session_unset()</code> and <code>session_destroy()</code> to remove all session data and terminate the session, then redirects the user to the login page.</li>
+            </ul>
+        </div>
+        <div class="file-entry">
+            <h3>login.php</h3>
+            <p><strong>Purpose:</strong> Handles the user login process. It presents the login form and contains the server-side logic to verify user credentials against the database. Upon success, it creates a session to keep the user logged in.</p>
+        </div>
+        <div class="file-entry">
+            <h3>register.php</h3>
+            <p><strong>Purpose:</strong> Manages new user registration. It displays the registration form and processes the submitted information, including validating inputs, hashing the password for security, and storing the new user in the database.</p>
+        </div>
+        <div class="file-entry">
+            <h3>logout.php</h3>
+            <p><strong>Purpose:</strong> Terminates the user's session. This script destroys the session data on the server, effectively logging the user out, and then redirects them, typically to the login page or homepage.</p>
+        </div>
+        <div class="file-entry">
+            <h3>forgot_password.php / reset_password.php / verify_otp.php</h3>
+            <p><strong>Purpose:</strong> This group of files manages the password reset functionality. <code>forgot_password.php</code> initiates the process, <code>verify_otp.php</code> confirms the user's identity via a one-time password, and <code>reset_password.php</code> allows the user to set a new password.</p>
+        </div>
+        <div class="file-entry">
+            <h3>verify.php</h3>
+            <p><strong>Purpose:</strong> Handles account verification, which is often required after registration. This could involve processing a link sent to the user's email or an OTP to activate their account.</p>
+        </div>
+    </div>
+    
+    <div id="api-integration" class="section">
+        <h2>Email & Brevo API Integration</h2>
+        <div class="file-entry">
+            <h3>Brevo (Sendinblue) API</h3>
+            <p>The application uses the Brevo API for sending critical transactional emails, leveraging the official PHP SDK installed via Composer.</p>
+            <ul>
+                <li><strong>Use Case:</strong> The primary use is for Two-Factor Authentication (2FA). When a user with a privileged role (admin, staff) logs in, the system generates an OTP and sends it to their registered email address via the Brevo API. The user must enter this OTP to complete the login process.</li>
+                <li><strong>Implementation:</strong> The logic is found in <code>login.php</code>. It uses the API key (stored in <code>API_config.php</code>) to authenticate, constructs an email with the OTP, and sends it using the Brevo SDK's transactional email endpoint.</li>
+                <li><strong>Testing:</strong> The <code>test-brevo.php</code> file is a simple script used to verify that the API key is correct and the connection to Brevo is working.</li>
+            </ul>
+        </div>
+        <div class="file-entry">
+            <h3>PHPMailer (for Contact Form)</h3>
+            <p>For general-purpose emails, such as those from the public contact form, the application uses the PHPMailer library.</p>
+            <ul>
+                <li><strong>Use Case:</strong> When a visitor submits the contact form, the details are sent to the workshop's support email address.</li>
+                <li><strong>Implementation:</strong> The <code>send_contact_email.php</code> script receives the form data. It configures PHPMailer to send the email using SMTP, in this case via a Gmail account. It includes settings for the SMTP server, authentication, and the email content itself.</li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div id="customer-files" class="section">
+        <h2>Customer-Facing Files</h2>
+        <div class="file-entry">
+            <h3>dashboard.php</h3>
+            <p><strong>Purpose:</strong> The main dashboard for logged-in customers. It likely provides an overview of their upcoming appointments, recent services, and notifications.</p>
+        </div>
+        <div class="file-entry">
+            <h3>customer_booking.php</h3>
+            <p><strong>Purpose:</strong> The core feature for customers to schedule new service appointments. It would display available services, time slots, and handle the booking submission.</p>
+        </div>
+        <div class="file-entry">
+            <h3>customer_appointments.php</h3>
+            <p><strong>Purpose:</strong> Allows customers to view their history of upcoming and past appointments.</p>
+        </div>
+        <div class="file-entry">
+            <h3>customer_view_quote.php</h3>
+            <p><strong>Purpose:</strong> A page where a customer can view the details of a price quotation sent to them by the staff.</p>
+        </div>
+        <div class="file-entry">
+            <h3>customer_billing.php</h3>
+            <p><strong>Purpose:</strong> Provides customers with access to their billing history, invoices, and payment information.</p>
+        </div>
+        <div class="file-entry">
+            <h3>customer_profile.php</h3>
+            <p><strong>Purpose:</strong> Enables customers to view and update their personal information, such as name, contact details, and password.</p>
+        </div>
+        <div class="file-entry">
+            <h3>customer_notifications.php</h3>
+            <p><strong>Purpose:</strong> A dedicated page for displaying notifications to the customer, such as appointment confirmations, reminders, or status updates on their vehicle.</p>
+        </div>
+        <div class="file-entry">
+            <h3>customer_archive.php</h3>
+            <p><strong>Purpose:</strong> Provides a view of a customer's archived records, likely for long-term history of services performed on their vehicles.</p>
+        </div>
+    </div>
+
+    <div id="staff-files" class="section">
+        <h2>Staff & Management Files</h2>
+        <div class="file-entry">
+            <h3>staff_appointment_managent.php & fetch_appointments.php</h3>
+            <p><strong>Purpose:</strong> The main interface for staff to manage all customer appointments. <code>fetch_appointments.php</code> likely acts as a data source, providing appointment information to a calendar or list view on the management page.</p>
+        </div>
+        <div class="file-entry">
+            <h3>staff_create_quotation.php / staff_quotation_manager.php / staff_view_quotation.php</h3>
+            <p><strong>Purpose:</strong> A suite of tools for managing quotations. Staff can create new quotes, manage and search existing ones, and view detailed information for a specific quote.</p>
+        </div>
+        <div class="file-entry">
+            <h3>staff_create_JO.php / staff_all_Job_orders.php / job_orders.php</h3>
+            <p><strong>Purpose:</strong> These files handle Job Orders (JOs). Staff can create a new JO, view a list of all JOs, and manage the details and status of each job.</p>
+        </div>
+        <div class="file-entry">
+            <h3>staff_billing.php</h3>
+            <p><strong>Purpose:</strong> The staff-side interface for managing customer billing, generating invoices, and tracking payments.</p>
+        </div>
+        <div class="file-entry">
+            <h3>staff_bay_manager.php</h3>
+            <p><strong>Purpose:</strong> A specialized tool for managing the physical service bays in the workshop, allowing staff to assign jobs to specific bays and track their status.</p>
+        </div>
+        <div class="file-entry">
+            <h3>staff_calendar_manager.php</h3>
+            <p><strong>Purpose:</strong> Provides a calendar-based view of all appointments and jobs, giving staff a clear overview of the workshop's schedule.</p>
+			<ul>
+				<li><strong>Front-End Dependency:</strong> To render an interactive calendar, this page relies on a JavaScript library. <strong>FullCalendar.js</strong> is the recommended library for this functionality, which fetches data from <code>fetch_appointments.php</code>.</li>
+			</ul>
+        </div>
+        <div class="file-entry">
+            <h3>staff_sendNotif.php</h3>
+            <p><strong>Purpose:</strong> Send notifications to customer based on Quotation ID and Payment status</p>
+        </div>
+        <div class="file-entry">
+            <h3>update_status.php</h3>
+            <p><strong>Purpose:</strong> A utility script that likely handles AJAX requests to update the status of various items, such as appointments, job orders, or payments, without requiring a full page reload.</p>
+        </div>
+
+        <div class="file-entry">
+            <h4>Customer Data Management (modules/appointments/)</h4>
+            <p><strong>Purpose:</strong> This module provides staff with the tools to perform CRUD (Create, Read, Update, Delete) operations on customer accounts and view their associated job orders and payment histories.</p>
+            <ul>
+                <li><strong>CDM.php:</strong> The main dashboard that lists all customers and provides links to view, edit, or delete them.</li>
+                <li><strong>view_customer.php:</strong> Displays a detailed profile of a single customer, including their active and completed job orders, and their full payment history.</li>
+                <li><strong>edit_customer.php:</strong> A form that allows staff to update a customer's personal information.</li>
+                <li><strong>delete_customer.php:</strong> The script responsible for deleting a customer's account from the database.</li>
+                <li><strong>update_job_order_status.php:</strong> A utility script, typically called from the customer view, to mark a job order as 'completed' after verifying that the payment has been made.</li>
+            </ul>
+        </div>
+    </div>
+
+      <div id="inventory-files" class="section">
+        <h2>Inventory Modules</h2>
+        <div class="file-entry">
+            <h3>inventory_management.php & inventory_reports.php</h3>
+            <p><strong>Purpose:</strong> Tools for managing the workshop's inventory. <code>inventory_management.php</code> is used for adding, updating, and tracking parts, while <code>inventory_reports.php</code> is for generating stock level and usage reports.</p>
+        </div>
+    </div>
+
+    <div id="admin-files" class="section">
+        <h2>Administrator Modules</h2>
+        <div class="file-entry">
+            <h4>Log History (admin_modules/log_history/)</h4>
+            <p><strong>Purpose:</strong> This module tracks user actions. <code>loghistory.php</code> displays the logs with pagination, and <code>export_logs_excel.php</code> allows the admin to download the logs as an Excel file for auditing purposes.</p>
+			<ul>
+				<li><strong>Note on Dependencies:</strong> This feature requires a server-side library to generate true <code>.xlsx</code> files. The recommended library is <strong>PhpSpreadsheet</strong>, which should be installed via Composer.</li>
+			</ul>
+        </div>
+        <div class="file-entry">
+            <h4>Maintenance (admin_modules/maintenance/)</h4>
+            <p><strong>Purpose:</strong> This module is for user account management. <code>maintenance.php</code> lists all users, while <code>add_user.php</code> and <code>edit_user.php</code> handle the creation and modification of user accounts. <code>toggle_status.php</code> is used to activate or deactivate users.</p>
+        </div>
+        <div class="file-entry">
+            <h4>Settings (admin_modules/settings/)</h4>
+            <p><strong>Purpose:</strong> This module allows administrators to configure the application. <code>admin_settings.php</code> might contain general settings, while <code>services.php</code> is specifically for managing the list of services offered by the shop.</p>
+        </div>
+    </div>
+
+</body>
+</html>
