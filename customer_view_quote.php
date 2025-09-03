@@ -71,67 +71,80 @@ function getQuotationProducts($pdo, $quotation_id) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Quotations | KCS Auto Service</title>
-    <link rel="stylesheet" href="css/view.css">
+    <title>Your Quotations | KCS Auto Repair Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/cust_view_quote.css">
 </head>
-<body>
 
-    <div class="header">
-        <h1>Your Quotations</h1>
-        <a href="dashboard_customer.php" class="back-link">Back to Dashboard</a>
-    </div>
+<div class="header-space"></div> <!-- Space for fixed header -->
+<br><br><br><br><br>
 
-    <div class="container">
-        <?php echo $message; ?>
+<body class="bg-gray-100 text-gray-800">
 
-        <h2>Pending Quotations</h2>
+    <main class="px-8 max-w-5xl mx-auto bg-white shadow rounded-lg">
+        <!-- Page Title -->
+        <!--<h2 class="text-2xl font-semibold mb-6 text-gray-800">Your Quotations</h2> COMMENTeD OUT FOR CONSISTENCY-->
+
+        <!-- Pending Quotations -->
+        <h1 class="text-2xl font-semibold mb-6 px-4 py-3 bg-white shadow rounded-lg">
+            Pending Quotations
+        </h1>
+
         <?php 
         $pendingQuotations = array_filter($allQuotations, fn($q) => $q['status'] === 'pending');
         if (!empty($pendingQuotations)): 
             foreach ($pendingQuotations as $quote):
         ?>
-            <div class="quote-card status-pending">
-                <div class="quote-content">
-                    <div class="quote-header">
-                        <h3>Quotation for Job Order #<?= $quote['job_order_id'] ?></h3>
-                        <span class="quote-status status-pending">Pending</span>
+            <div class="bg-white shadow rounded-lg p-6 mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold">Quotation for Job Order #<?= $quote['job_order_id'] ?></h3>
+                    <span class="px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-700">
+                        Pending
+                    </span>
+                </div>
+
+                <div class="space-y-2 text-gray-700">
+                    <p><strong>Service:</strong> <?= htmlspecialchars($quote['service_name']) ?></p>
+                    <p><strong>Diagnosis:</strong> <?= htmlspecialchars($quote['diagnosis']) ?></p>
+                    <p><strong>Details:</strong> <?= nl2br(htmlspecialchars($quote['quote_details'])) ?></p>
+                    <p><strong>Total Amount:</strong> ₱<?= number_format($quote['amount'], 2) ?></p>
+                </div>
+
+                <?php $products = getQuotationProducts($pdo, $quote['id']); ?>
+                <?php if (!empty($products)): ?>
+                    <div class="mt-4">
+                        <h4 class="font-medium mb-2">Included Products:</h4>
+                        <ul class="divide-y divide-gray-200">
+                            <?php foreach ($products as $prod): ?>
+                                <li class="flex justify-between py-2">
+                                    <span><?= htmlspecialchars($prod['item_name']) ?> (<?= $prod['quantity'] ?> × ₱<?= number_format($prod['price_per_unit'], 2) ?>)</span>
+                                    <strong>₱<?= number_format($prod['quantity'] * $prod['price_per_unit'], 2) ?></strong>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
                     </div>
-                    <div class="quote-body">
-                        <p><strong>Service:</strong> <?= htmlspecialchars($quote['service_name']) ?></p>
-                        <p><strong>Diagnosis:</strong> <?= htmlspecialchars($quote['diagnosis']) ?></p>
-                        <p><strong>Details:</strong> <?= nl2br(htmlspecialchars($quote['quote_details'])) ?></p>
-                        <p><strong>Total Amount:</strong> ₱<?= number_format($quote['amount'], 2) ?></p>
-                        
-                        <?php $products = getQuotationProducts($pdo, $quote['id']); ?>
-                        <?php if (!empty($products)): ?>
-                            <div class="product-list">
-                                <h4>Included Products:</h4>
-                                <ul>
-                                    <?php foreach ($products as $prod): ?>
-                                        <li>
-                                            <span><?= htmlspecialchars($prod['item_name']) ?> (<?= $prod['quantity'] ?> x ₱<?= number_format($prod['price_per_unit'], 2) ?>)</span>
-                                            <strong>₱<?= number_format($prod['quantity'] * $prod['price_per_unit'], 2) ?></strong>
-                                        </li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                    <div class="quote-actions">
-                        <form method="POST" onsubmit="return confirmAction(this, 'accept');" style="display: inline;">
+                <?php endif; ?>
+
+                <!-- Actions -->
+                <div class="mt-6 flex flex-wrap gap-2">
+                    <form method="POST" onsubmit="return confirmAction(this, 'accept');">
+                        <input type="hidden" name="quote_id" value="<?= $quote['id'] ?>">
+                        <input type="hidden" name="status" value="accepted">
+                        <button type="submit" class="accept-btn">Accept</button>
+                    </form>
+
+                    <button onclick="showDecline(this)" class="decline-btn">
+                        Decline
+                    </button>
+
+                    <div class="decline-note w-full hidden">
+                        <form method="POST" onsubmit="return confirmAction(this, 'decline');" class="mt-3">
                             <input type="hidden" name="quote_id" value="<?= $quote['id'] ?>">
-                            <input type="hidden" name="status" value="accepted">
-                            <button type="submit" class="accept-btn">Accept</button>
+                            <input type="hidden" name="status" value="declined">
+                            <textarea name="note" placeholder="Please provide a reason for declining..." rows="3" required></textarea>
+                            <button type="submit" class="confirm-decline-btn">Confirm Decline</button>
                         </form>
-                        <button class="decline-btn" onclick="showDecline(this)">Decline</button>
-                        <div class="decline-note">
-                            <form method="POST" onsubmit="return confirmAction(this, 'decline');">
-                                <input type="hidden" name="quote_id" value="<?= $quote['id'] ?>">
-                                <input type="hidden" name="status" value="declined">
-                                <textarea name="note" placeholder="Please provide a reason for declining..." rows="3" required style="height: 84px;width: 100%;"> </textarea>
-                                <button type="submit" class="confirm-decline-btn">Confirm Decline</button>
-                            </form>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -139,47 +152,56 @@ function getQuotationProducts($pdo, $quotation_id) {
             endforeach; 
         else: 
         ?>
-            <p>No pending quotations available.</p>
+            <p class="text-gray-500 mb-6">No pending quotations available.</p>
         <?php endif; ?>
 
-        <h2>Archived Quotations</h2>
+
+        <!-- Archived Quotations -->
+        <h2 class="text-2xl font-semibold mb-6 px-4 py-3 bg-white shadow rounded-lg">
+            Archived Quotations
+        </h2>
+
         <?php 
         $archivedQuotations = array_filter($allQuotations, fn($q) => $q['status'] !== 'pending');
         if (!empty($archivedQuotations)): 
             foreach ($archivedQuotations as $quote):
-                $statusClass = 'status-' . htmlspecialchars($quote['status']);
+                $statusClass = $quote['status'] === 'accepted' 
+                    ? 'bg-green-100 text-green-700'
+                    : 'bg-red-100 text-red-700';
         ?>
-            <div class="quote-card <?= $statusClass ?>">
-                <div class="quote-content">
-                    <div class="quote-header">
-                        <h3>Quotation for Job Order #<?= $quote['job_order_id'] ?></h3>
-                        <span class="quote-status <?= $statusClass ?>"><?= ucfirst(htmlspecialchars($quote['status'])) ?></span>
-                    </div>
-                    <div class="quote-body">
-                        <p><strong>Service:</strong> <?= htmlspecialchars($quote['service_name']) ?></p>
-                        <p><strong>Total Amount:</strong> ₱<?= number_format($quote['amount'], 2) ?></p>
-                        <?php if ($quote['status'] === 'declined' && !empty($quote['decline_note'])): ?>
-                            <div class="decline-reason">
-                                <strong>Reason for Decline:</strong> <?= htmlspecialchars($quote['decline_note']) ?>
-                            </div>
-                        <?php endif; ?>
-                    </div>
+            <div class="bg-white shadow rounded-lg p-6 mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold">Quotation for Job Order #<?= $quote['job_order_id'] ?></h3>
+                    <span class="px-3 py-1 rounded-full text-sm font-medium <?= $statusClass ?>">
+                        <?= ucfirst(htmlspecialchars($quote['status'])) ?>
+                    </span>
+                </div>
+
+                <div class="text-gray-700">
+                    <p><strong>Service:</strong> <?= htmlspecialchars($quote['service_name']) ?></p>
+                    <p><strong>Total Amount:</strong> ₱<?= number_format($quote['amount'], 2) ?></p>
+                    
+                    <?php if ($quote['status'] === 'declined' && !empty($quote['decline_note'])): ?>
+                        <div class="mt-2 bg-red-50 border-l-4 border-red-400 text-red-700 p-3 rounded">
+                            <strong>Reason for Decline:</strong> <?= htmlspecialchars($quote['decline_note']) ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         <?php 
             endforeach; 
         else: 
         ?>
-            <p>No archived quotations available.</p>
+            <p class="text-gray-500">No archived quotations available.</p>
         <?php endif; ?>
-    </div>
+    </main>
 
     <script>
     function showDecline(button) {
-        var actionsDiv = button.parentElement;
-        actionsDiv.querySelector('.decline-note').style.display = 'block';
-        button.style.display = 'none';
-        actionsDiv.querySelector('.accept-btn').style.display = 'none';
+        let wrapper = button.closest(".flex");
+        wrapper.querySelector(".decline-note").classList.remove("hidden");
+        button.classList.add("hidden");
+        wrapper.querySelector("form button[type='submit']").classList.add("hidden");
     }
 
     function confirmAction(form, action) {
@@ -200,3 +222,4 @@ function getQuotationProducts($pdo, $quotation_id) {
 
 </body>
 </html>
+
