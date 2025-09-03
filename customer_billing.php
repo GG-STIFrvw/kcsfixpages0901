@@ -87,7 +87,7 @@ $quotations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
   <div class="billing-container">
-    <h2>Submit Your GCash Payment</h2>
+    <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Submit Your GCash Payment</h1>
     
     <?php echo $message; ?>
 
