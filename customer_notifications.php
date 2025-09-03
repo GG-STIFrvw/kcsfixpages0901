@@ -15,12 +15,11 @@ $messagesStmt = $pdo->prepare("SELECT * FROM notifications WHERE user_id = ? ORD
 $messagesStmt->execute([$userId]);
 $customMessages = $messagesStmt->fetchAll(PDO::FETCH_ASSOC);
 
-
 // Mark notifications as read
 $updateStmt = $pdo->prepare("UPDATE notifications SET status = 'read' WHERE user_id = ? AND status = 'unread'");
 $updateStmt->execute([$userId]);
 
-// Fetch confirmed or declined appointments and related quotations for the current customer
+// Fetch confirmed or declined appointments and related quotations
 $stmt = $pdo->prepare("
     SELECT 
         a.id, a.scheduled_date, a.scheduled_time, a.status, a.notes,
@@ -38,86 +37,106 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute([$userId]);
 $bookingStatuses = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 
-<br><br>
+<div class="max-w-6xl mx-auto p-6 pt-24">
+    <div class="bg-white shadow-lg rounded-2xl p-6 space-y-12">
+        
+        <!-- Custom Messages from Staff -->
+        <div>
+            <h1 class="text-3xl font-bold text-gray-800 mb-6">Notifications</h1>
+            <h2 class="text-2xl font-semibold mb-6 text-gray-800">Messages from Staff</h2>
+            <?php if (!empty($customMessages)): ?>
+                <div class="border border-gray-200 rounded-lg bg-gray-50 divide-y divide-gray-200">
+                    <?php foreach ($customMessages as $msg): ?>
+                        <div class="p-4">
+                            <p class="text-gray-800"><?= htmlspecialchars($msg['message']) ?></p>
+                            <small class="text-sm text-gray-500">
+                                <?= date("F j, Y, g:i a", strtotime($msg['created_at'])) ?>
+                            </small>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <p class="text-center text-gray-500 py-4">
+                    You have no new messages from staff.
+                </p>
+            <?php endif; ?>
+        </div>
 
-<div class="notifications-container" style="max-width: 1200px; margin: 0 auto; padding: 20px;">
-
-    <!-- Custom Messages from Staff -->
-    <div class="custom-messages" style="margin-bottom: 40px;">
-        <h2 class="text-2xl font-semibold mb-6">Messages from Staff</h2>
-        <?php if (!empty($customMessages)): ?>
-            <div class="messages-list" style="border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
-                <?php foreach ($customMessages as $msg): ?>
-                    <div class="message-item" style="padding: 15px; border-bottom: 1px solid #eee;">
-                        <p style="margin: 0;"><?= htmlspecialchars($msg['message']) ?></p>
-                        <small style="color: #777;"><?= date("F j, Y, g:i a", strtotime($msg['created_at'])) ?></small>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        <?php else: ?>
-            <p style="color: #888; text-align: center; padding: 10px;">You have no new messages from staff.</p>
-        <?php endif; ?>
-    </div>
-
-    <!-- Booking Status Updates -->
-    <div class="booking-status-display">
-        <h2 class="text-2xl font-semibold mb-6">Your Booking Status Updates</h2>
-        <?php if (!empty($bookingStatuses)): ?>
-            <table style="width: 100%; border-collapse: collapse;">
-                <thead>
-                    <tr style="background-color: #f2f2f2;">
-                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Appointment ID</th>
-                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Vehicle</th>
-                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Services</th>
-                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Scheduled</th>
-                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Status</th>
-                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Details</th>
-                    </tr>
-                </thead>
-                <tbody>
-            <?php foreach ($bookingStatuses as $booking): ?>
-                <tr>
-                    <td style="padding: 10px; border: 1px solid #ddd;"><?= htmlspecialchars($booking['id']) ?></td>
-                    <td style="padding: 10px; border: 1px solid #ddd;"><?= htmlspecialchars($booking['brand']) ?> <?= htmlspecialchars($booking['model']) ?> (<?= htmlspecialchars($booking['plate_number']) ?>)</td>
-                    <td style="padding: 10px; border: 1px solid #ddd;"><?= htmlspecialchars($booking['service_names']) ?: 'N/A' ?></td>
-                    <td style="padding: 10px; border: 1px solid #ddd;"><?= htmlspecialchars($booking['scheduled_date']) ?> at <?= htmlspecialchars($booking['scheduled_time']) ?></td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">
-                        <?php
-                            $status_color = 'black'; // Default color
-                            if ($booking['status'] == 'confirmed') {
-                                $status_color = 'green';
-                            } elseif ($booking['status'] == 'declined') {
-                                $status_color = 'red';
-                            } elseif (in_array($booking['status'], ['completed', 'done'])) {
-                                $status_color = 'blue';
-                            }
-                        ?>
-                        <span style="color: <?= $status_color ?>; font-weight: bold;">
-                            <?= ucfirst(htmlspecialchars($booking['status'])) ?>
-                        </span>
-                    </td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">
-                        <?php if (!empty($booking['quotation_id'])): ?>
-                            <div class="quotation-info">
-                                <strong>Quotation Received:</strong><br>
-                                <strong>Amount:</strong> ₱<?= htmlspecialchars(number_format($booking['quotation_amount'], 2)) ?><br>
-                                <strong>Status:</strong> <?= ucfirst(htmlspecialchars($booking['quotation_status'])) ?><br>
-                                <a href="customer_view_quote.php" style="text-decoration: none; color: #007bff; font-weight: bold;">View Details</a>
-                            </div>
-                        <?php endif; ?>
-                        <?php if (!empty($booking['notes'])): ?>
-                            <p style="margin: 0;"><strong>Notes:</strong> <?= htmlspecialchars($booking['notes']) ?></p>
-                        <?php endif; ?>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <p style="color: #888; text-align: center; padding: 10px;">No confirmed or declined booking updates at this time.</p>
-        <?php endif; ?>
+        <!-- Booking Status Updates -->
+        <div>
+            <h2 class="text-2xl font-semibold mb-6 text-gray-800">Your Booking Status Updates</h2>
+            <?php if (!empty($bookingStatuses)): ?>
+                <div class="overflow-x-auto border border-gray-200 rounded-lg">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Appointment ID</th>
+                                <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Vehicle</th>
+                                <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Services</th>
+                                <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Scheduled</th>
+                                <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Status</th>
+                                <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Details</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <?php foreach ($bookingStatuses as $booking): ?>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-2 text-gray-700"><?= htmlspecialchars($booking['id']) ?></td>
+                                    <td class="px-4 py-2 text-gray-700">
+                                        <?= htmlspecialchars($booking['brand']) ?> 
+                                        <?= htmlspecialchars($booking['model']) ?> 
+                                        (<?= htmlspecialchars($booking['plate_number']) ?>)
+                                    </td>
+                                    <td class="px-4 py-2 text-gray-700">
+                                        <?= htmlspecialchars($booking['service_names']) ?: 'N/A' ?>
+                                    </td>
+                                    <td class="px-4 py-2 text-gray-700">
+                                        <?= htmlspecialchars($booking['scheduled_date']) ?> 
+                                        at <?= htmlspecialchars($booking['scheduled_time']) ?>
+                                    </td>
+                                    <td class="px-4 py-2">
+                                        <?php
+                                            $status_color = 'text-gray-700';
+                                            if ($booking['status'] == 'confirmed') {
+                                                $status_color = 'text-green-600 font-bold';
+                                            } elseif ($booking['status'] == 'declined') {
+                                                $status_color = 'text-red-600 font-bold';
+                                            } elseif (in_array($booking['status'], ['completed', 'done'])) {
+                                                $status_color = 'text-blue-600 font-bold';
+                                            }
+                                        ?>
+                                        <span class="<?= $status_color ?>">
+                                            <?= ucfirst(htmlspecialchars($booking['status'])) ?>
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-2 text-gray-700">
+                                        <?php if (!empty($booking['quotation_id'])): ?>
+                                            <div class="mb-2">
+                                                <p><strong>Quotation Received:</strong></p>
+                                                <p><strong>Amount:</strong> ₱<?= htmlspecialchars(number_format($booking['quotation_amount'], 2)) ?></p>
+                                                <p><strong>Status:</strong> <?= ucfirst(htmlspecialchars($booking['quotation_status'])) ?></p>
+                                                <a href="customer_view_quote.php" class="text-blue-600 font-semibold hover:underline">
+                                                    View Details
+                                                </a>
+                                            </div>
+                                        <?php endif; ?>
+                                        <?php if (!empty($booking['notes'])): ?>
+                                            <p><strong>Notes:</strong> <?= htmlspecialchars($booking['notes']) ?></p>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php else: ?>
+                <p class="text-center text-gray-500 py-4">
+                    No confirmed or declined booking updates at this time.
+                </p>
+            <?php endif; ?>
+        </div>
     </div>
 </div>
+
