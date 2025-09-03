@@ -140,93 +140,12 @@ $current_profile_pic = !empty($user['profile_picture']) && file_exists($profile_
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile | KCS Auto Service</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-        .profile-picture-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .profile-picture-container img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #d63031;
-        }
-        .form-section {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-top: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .form-group input[type="text"],
-        .form-group input[type="email"],
-        .form-group input[type="tel"],
-        .form-group input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box; /* Include padding in width */
-        }
-        .form-group input[type="file"] {
-            padding: 5px 0;
-        }
-        .form-group button {
-            background-color: #d63031;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .form-group button:hover {
-            background-color: #c02828;
-        }
-        .message {
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 4px;
-            font-weight: bold;
-        }
-        .message.success {
-            background-color: #d4edda;
-            color: #155724;
-            border-color: #c3e6cb;
-        }
-        .message.error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border-color: #f5c6cb;
-        }
-        .password-field-wrapper {
-            position: relative;
-        }
-        .password-field-wrapper i {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #333;
-            z-index: 100;
-        }
-    </style>
+    <link rel="stylesheet" href="css/customer_profile.css">
+
 </head>
 <body>
 
 <div class="pt-24"></div>
-
-    
 
     <div class="dashboard-container">
         <?php if ($message): ?>
