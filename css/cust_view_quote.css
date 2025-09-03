@@ -1,0 +1,136 @@
+/* ===== Root Vars ===== */
+
+*{
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+:root {
+    --header-height: 6rem; /* adjust if your header height changes */
+}
+
+
+/* ===== Layout Fix ===== */
+main {
+    padding-top: var(--header-height);
+    padding: 2rem; /* keep inner spacing consistent */
+}
+
+/* ===== General Customizations ===== */
+.hover-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Decline note fade-in */
+.decline-note {
+    animation: fadeIn 0.3s ease-in-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Quotation Cards ===== */
+.quote-card {
+    background: #fff;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Status badges */
+.status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+.status-accepted {
+    background-color: #d4edda;
+    color: #155724;
+}
+.status-declined {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* ===== Product List ===== */
+.product-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.product-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+.product-list li:last-child {
+    border-bottom: none;
+}
+
+/* ===== Actions ===== */
+.accept-btn,
+.decline-btn,
+.confirm-decline-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.accept-btn {
+    background-color: #16a34a; /* green-600 */
+    color: white;
+}
+.accept-btn:hover {
+    background-color: #15803d;
+}
+
+.decline-btn {
+    background-color: #dc2626; /* red-600 */
+    color: white;
+}
+.decline-btn:hover {
+    background-color: #b91c1c;
+}
+
+.confirm-decline-btn {
+    background-color: #f59e0b; /* yellow-500 */
+    color: white;
+}
+.confirm-decline-btn:hover {
+    background-color: #d97706;
+}
+
+/* Decline note textarea */
+.decline-note textarea {
+    width: 100%;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    resize: vertical;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 640px) {
+    .quote-actions,
+    .flex.flex-wrap.gap-2 {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .accept-btn,
+    .decline-btn,
+    .confirm-decline-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
