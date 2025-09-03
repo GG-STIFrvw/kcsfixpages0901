@@ -32,45 +32,66 @@ function getQuotationProducts($pdo, $quotation_id) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Archived Quotations | KCS Auto Service</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Archived Quotations | KCS Auto Service</title>
+</head>
+<body class="bg-gray-100 font-sans">
 
+  <div class="container mx-auto px-4 py-8 pt-24">
+    <div class="bg-white rounded-lg shadow-lg p-6">
+      <h1 class="text-3xl font-bold text-gray-800 mb-6">Archived Quotations</h1>
 
-<!-- Push content down below fixed header -->
-<div class="pt-[120px] px-6 max-w-4xl mx-auto">
+      <?php 
+      $archivedQuotations = array_filter($allQuotations, fn($q) => $q['status'] !== 'pending');
 
-  <h2 class="text-2xl font-semibold mb-6">Archived Quotations</h2>
+      // Tailwind-like status badge colors
+      function getQuoteStatusClasses($status) {
+          switch ($status) {
+              case 'accepted':
+                  return 'bg-green-200 text-green-700';
+              case 'declined':
+                  return 'bg-red-200 text-red-700';
+              case 'revised':
+                  return 'bg-yellow-200 text-yellow-700';
+              default:
+                  return 'bg-gray-200 text-gray-600';
+          }
+      }
 
-  <?php 
-  $archivedQuotations = array_filter($allQuotations, fn($q) => $q['status'] !== 'pending');
-  if (!empty($archivedQuotations)): 
-      foreach ($archivedQuotations as $quote):
-          $statusClass = 'status-' . htmlspecialchars($quote['status']);
-  ?>
-      <div class="quote-card <?= $statusClass ?> mb-6 border border-gray-200 rounded-lg p-4 shadow-sm">
-          <div class="quote-content">
-              <div class="quote-header flex justify-between items-center mb-2">
-                  <h3 class="text-lg font-semibold">Quotation for Job Order #<?= $quote['job_order_id'] ?></h3>
-                  <span class="quote-status <?= $statusClass ?> text-sm px-3 py-1 bg-gray-100 rounded-full">
-                      <?= ucfirst(htmlspecialchars($quote['status'])) ?>
-                  </span>
-              </div>
-              <div class="quote-body text-sm space-y-1">
-                  <p><strong>Service:</strong> <?= htmlspecialchars($quote['service_name']) ?></p>
-                  <p><strong>Total Amount:</strong> ₱<?= number_format($quote['amount'], 2) ?></p>
-                  <?php if ($quote['status'] === 'declined' && !empty($quote['decline_note'])): ?>
-                      <div class="decline-reason text-red-600 mt-2">
-                          <strong>Reason for Decline:</strong> <?= htmlspecialchars($quote['decline_note']) ?>
-                      </div>
-                  <?php endif; ?>
-              </div>
+      if (!empty($archivedQuotations)): 
+          foreach ($archivedQuotations as $quote): 
+              $statusClasses = getQuoteStatusClasses($quote['status']);
+      ?>
+        <div class="border border-gray-200 rounded-lg p-4 mb-6 shadow-sm hover:shadow-md transition">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="text-lg font-semibold text-gray-800">
+              Quotation for Job Order #<?= $quote['job_order_id'] ?>
+            </h3>
+            <span class="px-3 py-1 rounded-full text-xs font-medium <?= $statusClasses ?>">
+              <?= ucfirst(htmlspecialchars($quote['status'])) ?>
+            </span>
           </div>
-      </div>
-  <?php 
-      endforeach; 
-  else: 
-  ?>
-      <p class="text-gray-500">No archived quotations available.</p>
-  <?php endif; ?>
-</div>
+
+          <div class="text-sm text-gray-700 space-y-1">
+            <p><strong>Service:</strong> <?= htmlspecialchars($quote['service_name']) ?></p>
+            <p><strong>Total Amount:</strong> ₱<?= number_format($quote['amount'], 2) ?></p>
+            <?php if ($quote['status'] === 'declined' && !empty($quote['decline_note'])): ?>
+              <div class="mt-2 text-red-600">
+                <strong>Reason for Decline:</strong> <?= htmlspecialchars($quote['decline_note']) ?>
+              </div>
+            <?php endif; ?>
+          </div>
+        </div>
+      <?php 
+          endforeach; 
+      else: 
+      ?>
+        <p class="text-gray-500 text-center py-6">No archived quotations available.</p>
+      <?php endif; ?>
+    </div>
+  </div>
+
+</body>
+</html>
+
